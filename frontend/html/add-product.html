@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Add Product | Nadeesakul</title>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="/product-management" class="logo">Nadeesakul Admin</a>
+            <nav>
+                <ul>
+                    <li><a href="/product-management">กลับสู่หน้ารายการ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="form-container">
+                <h2>เพิ่มสินค้าใหม่</h2>
+                <div id="error-msg"></div>
+                <div id="success-msg"></div>
+                
+                <form id="productForm">
+                    <div class="form-group">
+                        <label>ชื่อสินค้า</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>หมวดหมู่</label>
+                        <input type="text" id="type" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>ยี่ห้อ</label>
+                        <input type="text" id="brand" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>ราคา</label>
+                        <input type="number" id="price" class="form-control" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>รายละเอียด</label>
+                        <textarea id="description" class="form-control" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>รูปภาพ (อัพโหลด)</label>
+                        <input type="file" id="image" class="form-control" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="btn-full" id="submitBtn">บันทึกสินค้า</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="/product.js"></script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Admin Login | Nadeesakul</title>
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 4rem auto;
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(16, 32, 51, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.16);
+        }
+        .login-container h2 {
+            font-size: 2rem;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(56, 189, 248, 0.28);
+            background: rgba(255, 255, 255, 0.78);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+        .btn-full {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--accent-blue);
+            color: var(--text-main);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-full:hover {
+            background: var(--accent-blue-hover);
+        }
+        #error-msg {
+            color: #ef4444;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="/" class="logo">Nadeesakul</a>
+            <nav>
+                <ul>
+                    <li><a href="/">หน้าแรก</a></li>
+                    <li><a href="/login" class="active">เข้าสู่ระบบ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="login-container">
+                <h2>Admin Login</h2>
+                <div id="error-msg"></div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="username" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn-full">Sign In</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('error-msg');
+
+            try {
+                const res = await fetch('http://localhost:3000/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await res.json();
+                
+                if (res.ok) {
+                    localStorage.setItem('token', data.token);
+                    window.location.href = '/product-management';
+                } else {
+                    errorMsg.textContent = data.message;
+                    errorMsg.style.display = 'block';
+                }
+            } catch (err) {
+                errorMsg.textContent = 'Server error. Please try again.';
+                errorMsg.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

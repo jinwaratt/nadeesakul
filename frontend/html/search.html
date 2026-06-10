@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ค้นหาสินค้า - น้ำมันหล่อลื่นอุตสาหกรรมและอุปกรณ์ไฟฟ้าคุณภาพสูงจาก Nadeesakul" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+  <title>ค้นหาสินค้า | Nadeesakul</title>
+</head>
+
+<body>
+  <header>
+    <div class="header-container">
+      <a href="/" class="logo">Nadeesakul</a>
+      <nav>
+        <ul>
+          <li><a href="/">หน้าแรก</a></li>
+          <li><a href="/search" class="active">ค้นหาสินค้า</a></li>
+          <li><a href="/company-profile">เกี่ยวกับเรา</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container">
+      <div class="page-header">
+        <h1>ค้นหาผลิตภัณฑ์ที่คุณต้องการ</h1>
+        <p>สำรวจแคตตาล็อกน้ำมันปั๊มลม อุปกรณ์ไฟฟ้า และตลับหมึกปริ้นเตอร์เลเซอร์</p>
+      </div>
+
+      <div class="search-container">
+        <div class="search-box">
+          <input type="text" id="search-input" class="search-input"
+            placeholder="ค้นหาน้ำมันปั๊มลม, อุปกรณ์ไฟฟ้า, ตลับหมึกปริ้นเตอร์เลเซอร์, แบรนด์...">
+          <button id="search-btn" class="search-btn">ค้นหา</button>
+        </div>
+      </div>
+
+      <!-- Breadcrumb -->
+      <div id="search-breadcrumb" class="drill-breadcrumb" style="display:none;"></div>
+
+      <!-- Dynamic content area -->
+      <div id="search-content">
+        <p style="text-align:center; color:var(--text-muted); padding: 2rem 0;">กำลังโหลด...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>ณดีสกุล (Nadeesakul)</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          ขับเคลื่อนอุตสาหกรรมไทยด้วยผลิตภัณฑ์ไฟฟ้าและน้ำมันหล่อลื่นระดับพรีเมียม</p>
+      </div>
+      <div class="footer-contact">
+        <h3 style="color: var(--text-main); margin-bottom: 1rem;">ติดต่อเรา</h3>
+        <p>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-blue)">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          nadeesakul@gmail.com
+        </p>
+        <p>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-amber)">
+            <path
+              d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+            </path>
+          </svg>
+          081-558-5757
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Nadeesakul. สงวนลิขสิทธิ์.
+    </div>
+  </footer>
+
+  <script src="/product.js"></script>
+</body>
+
+</html>
