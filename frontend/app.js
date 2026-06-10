@@ -18,6 +18,12 @@ router.get('/', (req, res) =>{
     res.sendFile(path.join(`${__dirname}/html/home-page.html`))
 })
 
+router.get('/config.js', (req, res) => {
+    const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:3000/api'
+    res.type('application/javascript')
+    res.send(`window.API_BASE_URL = ${JSON.stringify(apiBaseUrl)};`)
+})
+
 router.get('/login', (req, res) =>{
     res.sendFile(path.join(`${__dirname}/html/login.html`))
 })
@@ -57,6 +63,7 @@ router.use((req, res, next)=>{
 })
 
 // Listen
-app.listen(process.env.PORT, function(){
-    console.log(`Server listening at Port ${process.env.PORT}`)
+const PORT = process.env.PORT || 8000
+app.listen(PORT, function(){
+    console.log(`Server listening at Port ${PORT}`)
 })

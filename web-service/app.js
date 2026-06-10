@@ -10,15 +10,24 @@ const FormData = require('form-data');
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+const allowedOrigins = (process.env.CORS_ORIGIN || '')
+    .split(',')
+    .map(origin => origin.trim())
+    .filter(Boolean);
+
+app.use(cors({
+    origin: allowedOrigins.length > 0 ? allowedOrigins : true
+}));
 app.use(express.json());
 
 // Database connection pool
 const pool = mysql.createPool({
-    host: process.env.HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
+    host: process.env.MYSQLHOST || process.env.HOST,
+    port: process.env.MYSQLPORT || process.env.DB_PORT || 3306,
+    user: process.env.MYSQLUSER || process.env.DB_USER,
+    password: process.env.MYSQLPASSWORD || process.env.DB_PASS,
+    database: process.env.MYSQLDATABASE || process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -28,7 +37,7 @@ const pool = mysql.createPool({
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-const JWT_SECRET = 'nadeesakul_super_secret_key_2026'; // In production, use env var
+const JWT_SECRET = process.env.JWT_SECRET || 'nadeesakul_super_secret_key_2026';
 
 // Authentication Middleware
 const authenticateToken = (req, res, next) => {
@@ -61,6 +70,10 @@ const uploadToImgBB = async (fileBuffer) => {
 };
 
 // --- API ENDPOINTS ---
+
+app.get('/health', (req, res) => {
+    res.json({ ok: true });
+});
 
 // 1. Admin Login
 app.post('/api/login', async (req, res) => {

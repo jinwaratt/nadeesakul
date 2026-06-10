@@ -5,7 +5,8 @@
  *   /search, /product-detail
  */
 
-const API_BASE = 'http://localhost:3000/api/products';
+const API_ROOT = window.API_BASE_URL || 'http://localhost:3000/api';
+const API_BASE = `${API_ROOT.replace(/\/$/, '')}/products`;
 const token = localStorage.getItem('token');
 const path = window.location.pathname;
 

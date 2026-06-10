@@ -1,6 +1,5 @@
--- Create the database
-CREATE DATABASE IF NOT EXISTS `nadeesakulDB`;
-USE `nadeesakulDB`;
+-- Run this file inside your selected database.
+-- Railway MySQL provides the database name in MYSQLDATABASE, so do not switch databases here.
 
 -- --------------------------------------------------------
 -- Drop existing tables to allow clean reruns
