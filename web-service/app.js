@@ -55,6 +55,10 @@ const authenticateToken = (req, res, next) => {
 // ImgBB Upload Helper
 const uploadToImgBB = async (fileBuffer) => {
     try {
+        if (!process.env.IMGBB_API_KEY) {
+            throw new Error('Missing IMGBB_API_KEY environment variable');
+        }
+
         const formData = new FormData();
         formData.append('image', fileBuffer.toString('base64'));
         
@@ -69,10 +73,43 @@ const uploadToImgBB = async (fileBuffer) => {
     }
 };
 
+const getProductErrorMessage = (error, fallback) => {
+    if (error.message && error.message.includes('IMGBB_API_KEY')) {
+        return 'Image upload is not configured. Add IMGBB_API_KEY in Railway, or submit without an image.';
+    }
+
+    if (error.code === 'ER_DATA_TOO_LONG') {
+        return 'One of the product fields is too long for the database column. Please update the Product table column sizes.';
+    }
+
+    if (error.code === 'ER_NO_SUCH_TABLE') {
+        return 'Product table was not found. Please import nadeesakulDB.sql into Railway MySQL.';
+    }
+
+    return fallback;
+};
+
 // --- API ENDPOINTS ---
 
 app.get('/health', (req, res) => {
     res.json({ ok: true });
+});
+
+app.get('/health/db', async (req, res) => {
+    try {
+        const [[accountResult]] = await pool.query('SELECT COUNT(*) AS accountCount FROM Account');
+        res.json({
+            ok: true,
+            database: process.env.MYSQLDATABASE || process.env.DB_NAME,
+            accountCount: accountResult.accountCount
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            ok: false,
+            message: 'Database check failed'
+        });
+    }
 });
 
 // 1. Admin Login
@@ -190,7 +227,7 @@ app.post('/api/products', authenticateToken, upload.single('image'), async (req,
         res.status(201).json({ message: 'Product added successfully', id: newId });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Server error adding product' });
+        res.status(500).json({ message: getProductErrorMessage(error, 'Server error adding product') });
     }
 });
 
@@ -212,7 +249,7 @@ app.put('/api/products/:id', authenticateToken, upload.single('image'), async (r
         res.json({ message: 'Product updated successfully' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Server error updating product' });
+        res.status(500).json({ message: getProductErrorMessage(error, 'Server error updating product') });
     }
 });
 

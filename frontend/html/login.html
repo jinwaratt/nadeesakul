@@ -113,7 +113,7 @@
                     body: JSON.stringify({ username, password })
                 });
                 
-                const data = await res.json();
+                const data = await res.json().catch(() => ({ message: `Login failed with status ${res.status}` }));
                 
                 if (res.ok) {
                     localStorage.setItem('token', data.token);
@@ -123,6 +123,7 @@
                     errorMsg.style.display = 'block';
                 }
             } catch (err) {
+                console.error(err);
                 errorMsg.textContent = 'Server error. Please try again.';
                 errorMsg.style.display = 'block';
             }

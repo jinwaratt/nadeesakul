@@ -1,0 +1,9 @@
+ALTER TABLE `Account`
+  MODIFY `username` VARCHAR(50) NOT NULL,
+  MODIFY `password` VARCHAR(255) NOT NULL;
+
+ALTER TABLE `Product`
+  MODIFY `name` VARCHAR(150) NOT NULL,
+  MODIFY `type` VARCHAR(80) NOT NULL,
+  MODIFY `brand` VARCHAR(80) NOT NULL,
+  MODIFY `description` TEXT NULL;

@@ -15,19 +15,19 @@ DROP TABLE IF EXISTS `Product`;
 -- Table: Account
 CREATE TABLE `Account` (
     `AccountID` CHAR(8) NOT NULL,
-    `username` VARCHAR(20) NOT NULL,
-    `password` NVARCHAR(20) NOT NULL,
+    `username` VARCHAR(50) NOT NULL,
+    `password` VARCHAR(255) NOT NULL,
     PRIMARY KEY (`AccountID`)
 );
 
 -- Table: Product
 CREATE TABLE `Product` (
     `ProductID` CHAR(8) NOT NULL,
-    `name` VARCHAR(30) NOT NULL,
-    `type` VARCHAR(30) NOT NULL,
-    `brand` VARCHAR(30) NOT NULL,
+    `name` VARCHAR(150) NOT NULL,
+    `type` VARCHAR(80) NOT NULL,
+    `brand` VARCHAR(80) NOT NULL,
     `price` DECIMAL(15,2) NOT NULL,
-    `description` NVARCHAR(150) NULL,
+    `description` TEXT NULL,
     `image_url` VARCHAR(500) NULL,
     `status` TINYINT(1) NOT NULL,
     `isDeleted` BOOLEAN NOT NULL DEFAULT FALSE,
