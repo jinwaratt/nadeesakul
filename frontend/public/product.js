@@ -579,6 +579,46 @@ if (path === '/product-detail') {
             // Update page title
             document.title = `${p.name} | Nadeesakul`;
 
+            // Update meta description dynamically for search engine bots
+            let metaDesc = document.querySelector('meta[name="description"]');
+            if (!metaDesc) {
+                metaDesc = document.createElement('meta');
+                metaDesc.setAttribute('name', 'description');
+                document.head.appendChild(metaDesc);
+            }
+            metaDesc.setAttribute('content', `${p.name} - หมวดหมู่ ${p.type} ยี่ห้อ ${p.brand}. ราคา ${p.price} บาท. ${p.description || ''}`.substring(0, 160));
+
+            // Dynamic Schema.org JSON-LD Structured Data for Product
+            let scriptSchema = document.getElementById('product-schema');
+            if (!scriptSchema) {
+                scriptSchema = document.createElement('script');
+                scriptSchema.id = 'product-schema';
+                scriptSchema.type = 'application/ld+json';
+                document.head.appendChild(scriptSchema);
+            }
+            const schemaData = {
+                "@context": "https://schema.org/",
+                "@type": "Product",
+                "name": p.name,
+                "image": p.image_url || '',
+                "description": p.description || `${p.name} - ผลิตภัณฑ์จาก ${p.brand}`,
+                "sku": p.ProductID,
+                "brand": {
+                    "@type": "Brand",
+                    "name": p.brand
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "url": window.location.href,
+                    "priceCurrency": "THB",
+                    "price": p.price,
+                    "priceValidUntil": "2030-12-31",
+                    "itemCondition": "https://schema.org/NewCondition",
+                    "availability": p.status == 1 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+                }
+            };
+            scriptSchema.text = JSON.stringify(schemaData);
+
             const isUnavailable = p.status == 0;
 
             content.innerHTML = `

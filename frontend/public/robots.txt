@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Allow: /search
+Allow: /company-profile
+Allow: /product-detail
+
+Disallow: /login
+Disallow: /add-product
+Disallow: /edit-product
+Disallow: /product-management
+Disallow: /config.js
+
+# Change this URL to your custom domain once connected
+Sitemap: https://nadeesakul-ws.up.railway.app/sitemap.xml
