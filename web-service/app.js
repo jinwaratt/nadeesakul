@@ -111,16 +111,25 @@ app.get('/health', (req, res) => {
 app.get('/health/db', async (req, res) => {
     try {
         const [[accountResult]] = await pool.query('SELECT COUNT(*) AS accountCount FROM Account');
+        let columns = [];
+        try {
+            const [cols] = await pool.query('SHOW COLUMNS FROM Product');
+            columns = cols;
+        } catch (e) {
+            columns = [{ error: e.message }];
+        }
         res.json({
             ok: true,
             database: process.env.MYSQLDATABASE || process.env.DB_NAME,
-            accountCount: accountResult.accountCount
+            accountCount: accountResult.accountCount,
+            columns: columns
         });
     } catch (error) {
         console.error(error);
         res.status(500).json({
             ok: false,
-            message: 'Database check failed'
+            message: 'Database check failed',
+            error: error.message
         });
     }
 });
