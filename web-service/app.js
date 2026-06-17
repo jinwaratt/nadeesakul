@@ -111,6 +111,17 @@ app.get('/health', (req, res) => {
 app.get('/health/db', async (req, res) => {
     try {
         const [[accountResult]] = await pool.query('SELECT COUNT(*) AS accountCount FROM Account');
+        
+        let fixResult = null;
+        if (req.query.fix === 'true') {
+            try {
+                await pool.query('ALTER TABLE Product CHANGE COLUMN img_url image_url TEXT NULL');
+                fixResult = 'Successfully renamed img_url to image_url';
+            } catch (err) {
+                fixResult = 'Failed to rename: ' + err.message;
+            }
+        }
+
         let columns = [];
         try {
             const [cols] = await pool.query('SHOW COLUMNS FROM Product');
@@ -122,6 +133,7 @@ app.get('/health/db', async (req, res) => {
             ok: true,
             database: process.env.MYSQLDATABASE || process.env.DB_NAME,
             accountCount: accountResult.accountCount,
+            fixResult: fixResult,
             columns: columns
         });
     } catch (error) {
