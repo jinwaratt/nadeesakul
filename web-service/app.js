@@ -68,14 +68,22 @@ const uploadToImgBB = async (fileBuffer) => {
         
         return response.data.data.url;
     } catch (error) {
-        console.error("ImgBB Upload Error:", error.message);
-        throw new Error('Failed to upload image to ImgBB');
+        let msg = error.message;
+        if (error.response && error.response.data && error.response.data.error) {
+            msg = error.response.data.error.message;
+        }
+        console.error("ImgBB Upload Error:", msg);
+        throw new Error(`Failed to upload image to ImgBB: ${msg}`);
     }
 };
 
 const getProductErrorMessage = (error, fallback) => {
     if (error.message && error.message.includes('IMGBB_API_KEY')) {
         return 'Image upload is not configured. Add IMGBB_API_KEY in Railway, or submit without an image.';
+    }
+
+    if (error.message && error.message.includes('Failed to upload image to ImgBB')) {
+        return error.message;
     }
 
     if (error.code === 'ER_DATA_TOO_LONG') {
