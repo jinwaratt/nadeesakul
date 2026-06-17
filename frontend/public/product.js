@@ -328,7 +328,9 @@ if (path === '/edit-product') {
                 const statusEl = document.getElementById('status');
                 statusEl.value = p.status;
                 if (p.image_url) {
-                    document.getElementById('imgPreview').src = p.image_url;
+                    const preview = document.getElementById('imgPreview');
+                    preview.src = p.image_url;
+                    preview.style.display = 'block';
                 }
             } else {
                 alert('Product not found');
