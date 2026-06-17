@@ -78,6 +78,11 @@ const uploadToImgBB = async (fileBuffer) => {
 };
 
 const getProductErrorMessage = (error, fallback) => {
+    let details = error.message || String(error);
+    if (error.code) {
+        details += ` (Code: ${error.code})`;
+    }
+
     if (error.message && error.message.includes('IMGBB_API_KEY')) {
         return 'Image upload is not configured. Add IMGBB_API_KEY in Railway, or submit without an image.';
     }
@@ -94,7 +99,7 @@ const getProductErrorMessage = (error, fallback) => {
         return 'Product table was not found. Please import nadeesakulDB.sql into Railway MySQL.';
     }
 
-    return fallback;
+    return `${fallback}: ${details}`;
 };
 
 // --- API ENDPOINTS ---
